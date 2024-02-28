@@ -1,8 +1,16 @@
+const { putMetricData } = require('./src/metrics');
+
+
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
+app.get('/', putMetricData, (req, res) => {
+  console.log('Got a request');
   res.send('Hello World');
+});
+
+app.get('/health', (req, res) => {
+  res.send('OK');
 });
 
 app.listen(3000, () => {
