@@ -12,8 +12,15 @@ terraform {
   backend "s3" {}
 }
 
+resource "aws_default_vpc" "default" {}
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
+data "aws_subnets" "subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [aws_default_vpc.default.id]
+  }
+}
 
 locals {
   account_id = data.aws_caller_identity.current.account_id
