@@ -1,11 +1,12 @@
-const { putMetricData } = require('./src/metrics');
+const { countAccess } = require('./src/metrics');
 
 
 const express = require('express');
 const app = express();
 
-app.get('/', putMetricData, (req, res) => {
-  console.log('Got a request');
+app.use(countAccess)
+
+app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
