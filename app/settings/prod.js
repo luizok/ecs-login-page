@@ -11,6 +11,6 @@ module.exports = {
         table: process.env.SESSION_TABLE,
         skipThrowMissingSpecialKeys: true,
         hashKey: 'sessionId',
-        prefix: 'sessionId-'
+        prefix: ''
     })
 }
