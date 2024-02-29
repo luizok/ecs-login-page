@@ -16,6 +16,7 @@ app.use(session({
   saveUninitialized: false,
   secret: 'keboard cat',
   resave: false,
+  rolling: true,
   name: 'sessionId',
   store: config.storeManager
 }));
