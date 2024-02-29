@@ -9,3 +9,11 @@ variable "image_name" {
 variable "cw_metric_resolution_min" {
   type = string
 }
+
+variable "task_cpu" {
+  type = string
+}
+
+variable "task_memory" {
+  type = string
+}
