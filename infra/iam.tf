@@ -75,6 +75,20 @@ resource "aws_iam_role" "ecs_task" {
             "cloudwatch:PutMetricData"
           ],
           Resource = "*"
+        },
+        {
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": [
+            "dynamodb:CreateTable",
+            "dynamodb:DescribeTable",
+            "dynamodb:PutItem",
+            "dynamodb:DeleteItem",
+            "dynamodb:GetItem",
+            "dynamodb:Scan",
+            "dynamodb:UpdateItem"
+          ],
+          "Resource": aws_dynamodb_table.table.arn
         }
       ]
     })

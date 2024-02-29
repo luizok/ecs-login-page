@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1568.0",
+    "connect-dynamodb": "^3.0.3",
     "express": "^4.18.2",
     "express-session": "^1.18.0"
   },

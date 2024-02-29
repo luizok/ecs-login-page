@@ -35,8 +35,12 @@ resource "aws_ecs_task_definition" "task" {
       image = var.image_name
       environment = [
         {
-          name  = "CW_METRIC_RESOLUTION_MIN"
-          value = var.cw_metric_resolution_min
+          name  = "ENVIRONMENT"
+          value = "prod"
+        },
+        {
+          name  = "SESSION_TABLE"
+          value = aws_dynamodb_table.table.name
         }
       ],
       portMappings = [
