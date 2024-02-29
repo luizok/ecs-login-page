@@ -7,5 +7,5 @@ variable "image_name" {
 }
 
 variable "cw_metric_resolution_min" {
-  type = number
+  type = string
 }
