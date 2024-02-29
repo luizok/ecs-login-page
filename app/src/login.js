@@ -14,8 +14,6 @@ module.exports = {
             req.session.username
         );
 
-        console.log(isLogged);
-
         if (isLogged) {
             next();
             return;

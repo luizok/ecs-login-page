@@ -1,4 +1,7 @@
 const AWS = require('aws-sdk');
+const config = require(`../settings/${process.env.ENVIRONMENT}`);
+
+
 const cw = new AWS.CloudWatch({ apiVersion: '2010-08-01', region: 'sa-east-1' });
 let countAccess = 0;
 
@@ -39,5 +42,5 @@ function putMetricData() {
 
 setInterval(
     putMetricData,
-    parseInt(process.env.CW_METRIC_RESOLUTION_MIN) * 60 * 1000
+    config.cwMetricsIntervalInMinutes * 60 * 1000
 );

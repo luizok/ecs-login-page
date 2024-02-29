@@ -1,5 +1,6 @@
 const session = require('express-session');
 
+const config = require(`./settings/${process.env.ENVIRONMENT}`);
 const { countAccess } = require('./src/metrics');
 const { isUserLoggedIn, validateUser } = require('./src/login');
 
@@ -11,14 +12,14 @@ app.use(countAccess);
 app.use(express.json());
 app.use('/static', express.static('public'));
 app.use(session({
-  cookie: { maxAge: 5 * 60 * 1000 },
+  cookie: { maxAge: config.sessionDurationInMinutes * 60 * 1000 },
   saveUninitialized: false,
   secret: 'keboard cat',
   resave: false,
   name: 'sessionId',
-  store: new session.MemoryStore()
+  store: config.storeManager
 }));
-    
+
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });

@@ -10,5 +10,6 @@ RUN npm install
 COPY index.js /app/index.js
 COPY src/ /app/src/
 COPY public/ /app/public/
+COPY settings/ /app/settings/
 
 ENTRYPOINT [ "node", "index.js" ]
