@@ -3,3 +3,5 @@ app/node_modules
 infra/config.aws.tfbackend
 infra/.terraform
 infra/.terraform.lock.hcl
+out/*
+!out/.gitkeep

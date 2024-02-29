@@ -5,7 +5,6 @@ let countAccess = 0;
 module.exports = {
     countAccess: function (req, res, next) {
         countAccess++;
-        console.log('countAccess: ', countAccess);
         next();
     }
 };
@@ -38,4 +37,7 @@ function putMetricData() {
     countAccess = 0;
 }
 
-setInterval(putMetricData, 1*60*1000); // 1min resolution for testing purposes
+setInterval(
+    putMetricData,
+    parseInt(process.env.CW_METRIC_RESOLUTION_MIN) * 60 * 1000
+);

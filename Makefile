@@ -13,6 +13,9 @@ validate:
 	$(tf_cmd) fmt
 	$(tf_cmd) validate
 
+run:
+	cd $(app_path) && dotenv -f ../.env run npm run monitor
+
 plan:
 	$(tf_cmd) plan -var-file values.tfvars
 

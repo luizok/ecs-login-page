@@ -68,6 +68,13 @@ resource "aws_iam_role" "ecs_task" {
             "logs:PutLogEvents"
           ],
           Resource = "arn:aws:logs:*:*:*"
+        },
+        {
+          Effect = "Allow",
+          Action = [
+            "cloudwatch:PutMetricData"
+          ],
+          Resource = "*"
         }
       ]
     })

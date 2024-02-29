@@ -31,8 +31,14 @@ resource "aws_ecs_task_definition" "task" {
 
   container_definitions = jsonencode([
     {
-      name  = "${var.project_name}-container"
+      name  = "${var.project_name}-container-${data.archive_file.build_code.output_md5}"
       image = var.image_name
+      environment = [
+        {
+          name  = "CW_METRIC_RESOLUTION_MIN"
+          value = var.cw_metric_resolution_min
+        }
+      ],
       portMappings = [
         {
           containerPort = 3000
