@@ -12,12 +12,21 @@ resource "aws_ecs_service" "service" {
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.task.arn
   launch_type     = "FARGATE"
-  desired_count   = 1
+  desired_count   = 2
 
   network_configuration {
     subnets          = data.aws_subnets.subnets.ids
+    security_groups  = [aws_security_group.default.id]
     assign_public_ip = true
   }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.alb_tg.arn
+    container_name   = "${var.project_name}-container-${data.archive_file.build_code.output_md5}"
+    container_port   = var.container_port
+  }
+
+  depends_on = [ aws_lb_listener.alb_listener ]
 }
 
 resource "aws_ecs_task_definition" "task" {
@@ -45,8 +54,8 @@ resource "aws_ecs_task_definition" "task" {
       ],
       portMappings = [
         {
-          containerPort = 3000
-          hostPort      = 3000
+          containerPort = var.container_port
+          hostPort      = var.container_port
         }
       ],
       logConfiguration = {

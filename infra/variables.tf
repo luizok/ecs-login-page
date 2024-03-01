@@ -17,3 +17,7 @@ variable "task_cpu" {
 variable "task_memory" {
   type = string
 }
+
+variable "container_port" {
+  type = number
+}

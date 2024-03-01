@@ -14,6 +14,9 @@ terraform {
 }
 
 resource "aws_default_vpc" "default" {}
+resource "aws_default_security_group" "default" {
+  vpc_id = aws_default_vpc.default.id
+}
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 data "aws_subnets" "subnets" {
