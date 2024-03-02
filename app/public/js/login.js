@@ -13,7 +13,7 @@ function login() {
             var response = JSON.parse(xhr.responseText);
             console.log(response);
             if (response.success) {
-                window.location.href = '/';
+                window.location.href = '/me';
             } else {
                 alert('Login failed');
             }
