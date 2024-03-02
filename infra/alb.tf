@@ -2,7 +2,7 @@ resource "aws_lb" "alb" {
   name                       = "${var.project_name}-alb"
   internal                   = false
   load_balancer_type         = "application"
-  security_groups            = [aws_security_group.default.id]
+  security_groups            = [aws_security_group.public_alb_sg.id]
   subnets                    = data.aws_subnets.subnets.ids
   enable_deletion_protection = false
 }
@@ -22,6 +22,8 @@ resource "aws_lb_target_group" "alb_tg" {
     timeout             = 5
     interval            = 30
   }
+
+  load_balancing_algorithm_type = "least_outstanding_requests"
 
   stickiness {
     type = "app_cookie"
