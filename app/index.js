@@ -8,6 +8,9 @@ const { isUserLoggedIn, validateUser } = require('./src/login');
 const express = require('express');
 const app = express();
 
+app.engine('html', require('ejs').renderFile);
+app.set('views', __dirname + '/public');
+app.set('view engine', 'html');
 app.use(countAccess);
 app.use(express.json());
 app.use('/static', express.static('public'));
@@ -22,7 +25,7 @@ app.use(session({
 }));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
+  res.render('index.html');
 });
 
 app.get('/login', (req, res) => {
@@ -43,8 +46,7 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/me', isUserLoggedIn, (req, res) => {
-  res.send(`Welcome, ${req.session.username}`);
-  // res.sendFile(__dirname + '/public/me.html');
+  res.render('me.html', { username: req.session.username });
 });
 
 app.get('/health', (req, res) => {

@@ -1,6 +1,8 @@
+
+
 function login() {
-    var username = document.getElementsByName('username')[0].value;
-    var password = document.getElementsByName('password')[0].value;
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/login', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -11,7 +13,7 @@ function login() {
             var response = JSON.parse(xhr.responseText);
             console.log(response);
             if (response.success) {
-                window.location.href = '/me';
+                window.location.href = '/';
             } else {
                 alert('Login failed');
             }

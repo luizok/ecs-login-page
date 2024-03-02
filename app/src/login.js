@@ -19,6 +19,6 @@ module.exports = {
             return;
         }
 
-        res.redirect('/login');
+        res.redirect('/');
     }
 };
