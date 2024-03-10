@@ -3,15 +3,15 @@ resource "aws_lb" "alb" {
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.public_alb_sg.id]
-  subnets                    = data.aws_subnets.subnets.ids
+  subnets                    = data.aws_subnets.public_subnets.ids
   enable_deletion_protection = false
 }
 
 resource "aws_lb_target_group" "alb_tg" {
-  name     = "${var.project_name}-fargate-tg"
-  port     = var.container_port
-  protocol = "HTTP"
-  vpc_id   = aws_default_vpc.default.id
+  name        = "${var.project_name}-fargate-tg"
+  port        = var.container_port
+  protocol    = "HTTP"
+  vpc_id      = aws_default_vpc.default.id
   target_type = "ip"
   health_check {
     path                = "/health"
@@ -26,9 +26,9 @@ resource "aws_lb_target_group" "alb_tg" {
   load_balancing_algorithm_type = "least_outstanding_requests"
 
   stickiness {
-    type = "app_cookie"
+    type        = "app_cookie"
     cookie_name = "sessionId"
-    enabled = true
+    enabled     = true
   }
 }
 

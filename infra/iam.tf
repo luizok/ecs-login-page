@@ -77,9 +77,9 @@ resource "aws_iam_role" "ecs_task" {
           Resource = "*"
         },
         {
-          "Sid": "VisualEditor0",
-          "Effect": "Allow",
-          "Action": [
+          "Sid" : "VisualEditor0",
+          "Effect" : "Allow",
+          "Action" : [
             "dynamodb:CreateTable",
             "dynamodb:DescribeTable",
             "dynamodb:PutItem",
@@ -88,7 +88,7 @@ resource "aws_iam_role" "ecs_task" {
             "dynamodb:Scan",
             "dynamodb:UpdateItem"
           ],
-          "Resource": aws_dynamodb_table.table.arn
+          "Resource" : aws_dynamodb_table.table.arn
         }
       ]
     })

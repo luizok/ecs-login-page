@@ -37,11 +37,11 @@ resource "aws_security_group" "albsg_ecs_sg" {
   }
 
   ingress {
-    description     = "Allow private traffic between ALB and ECSon port 80"
-    from_port       = 443
-    to_port         = 443
-    protocol        = "tcp"
-    cidr_blocks     = ["0.0.0.0/0"]
+    description = "Allow private traffic between ALB and ECSon port 80"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
