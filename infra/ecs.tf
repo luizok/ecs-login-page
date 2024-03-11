@@ -15,9 +15,10 @@ resource "aws_ecs_service" "service" {
   desired_count   = 2
 
   network_configuration {
-    subnets          = data.aws_subnets.public_subnets.ids
+    # subnets          = data.aws_subnets.public_subnets.ids
+    subnets = values(aws_subnet.private_subnets)[*].id
     security_groups  = [aws_security_group.albsg_ecs_sg.id]
-    assign_public_ip = true
+    # assign_public_ip = true
   }
 
   load_balancer {
