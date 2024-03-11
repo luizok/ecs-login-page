@@ -21,3 +21,7 @@ variable "task_memory" {
 variable "container_port" {
   type = number
 }
+
+variable "internet_gateway_id" {
+  type = string
+}
