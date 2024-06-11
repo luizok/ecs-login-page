@@ -25,3 +25,7 @@ variable "container_port" {
 variable "internet_gateway_id" {
   type = string
 }
+
+variable "certificate_arn" {
+  type = string
+}

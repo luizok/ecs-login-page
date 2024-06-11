@@ -16,8 +16,8 @@ resource "aws_ecs_service" "service" {
 
   network_configuration {
     # subnets          = data.aws_subnets.public_subnets.ids
-    subnets = values(aws_subnet.private_subnets)[*].id
-    security_groups  = [aws_security_group.albsg_ecs_sg.id]
+    subnets         = values(aws_subnet.private_subnets)[*].id
+    security_groups = [aws_security_group.albsg_ecs_sg.id]
     # assign_public_ip = true
   }
 
@@ -27,7 +27,10 @@ resource "aws_ecs_service" "service" {
     container_port   = var.container_port
   }
 
-  depends_on = [aws_lb_listener.alb_listener]
+  depends_on = [
+    aws_lb_listener.alb_listener_443,
+    aws_lb_listener.alb_listener_80,
+  ]
 }
 
 resource "aws_ecs_task_definition" "task" {
