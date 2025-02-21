@@ -20,7 +20,7 @@ plan:
 	$(tf_cmd) plan -var-file values.tfvars
 
 deploy:
-	$(tf_cmd) apply -var-file values.tfvar -target data.aws_subnets.public_subnets
+	$(tf_cmd) apply -var-file values.tfvars -target data.aws_subnets.public_subnets
 	$(tf_cmd) apply -var-file values.tfvars
 
 show:
