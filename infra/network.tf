@@ -31,13 +31,21 @@ data "aws_subnet" "public_subnets" {
   depends_on = [data.aws_subnets.public_subnets]
 }
 
-resource "aws_eip" "nateip" {
+# TODO: count must dynamic based on the number of subnets
+resource "aws_eip" "nateips" {
+  count  = 3
   domain = "vpc"
 }
 
-resource "aws_nat_gateway" "ngw" {
-  allocation_id = aws_eip.nateip.id
-  subnet_id     = data.aws_subnets.public_subnets.ids[0]
+resource "aws_nat_gateway" "ngws" {
+  for_each = {
+    for idx, subnet_id in keys(data.aws_subnet.public_subnets) :
+    subnet_id => {
+      nateip = aws_eip.nateips[idx].id
+    }
+  }
+  allocation_id = each.value.nateip
+  subnet_id     = each.key
   depends_on    = [data.aws_internet_gateway.igw]
 }
 
@@ -45,15 +53,15 @@ resource "aws_subnet" "private_subnets" {
   for_each = {
     for idx, subnet_id in keys(data.aws_subnet.public_subnets) :
     subnet_id => {
-      subnet = data.aws_subnet.public_subnets[subnet_id]
+      az = data.aws_subnet.public_subnets[subnet_id].availability_zone
       index  = idx
     }
   }
   vpc_id            = aws_default_vpc.default.id
   cidr_block        = local.private_cidr_blocks[each.value.index]
-  availability_zone = each.value.subnet.availability_zone
+  availability_zone = each.value.az
   tags = {
-    Name = "${each.key} Related Private Subnet"
+    Name         = "${each.key} Related Private Subnet"
   }
 }
 
@@ -72,12 +80,13 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
-resource "aws_route_table" "private" {
+resource "aws_route_table" "privates" {
+  for_each = aws_subnet.private_subnets
   vpc_id = aws_default_vpc.default.id
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.ngw.id
+    nat_gateway_id = aws_nat_gateway.ngws[each.key].id
   }
 }
 
@@ -85,5 +94,5 @@ resource "aws_route_table" "private" {
 resource "aws_route_table_association" "private" {
   for_each       = aws_subnet.private_subnets
   subnet_id      = each.value.id
-  route_table_id = aws_route_table.private.id
+  route_table_id = aws_route_table.privates[each.key].id
 }
