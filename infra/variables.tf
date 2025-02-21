@@ -29,3 +29,11 @@ variable "internet_gateway_id" {
 variable "certificate_arn" {
   type = string
 }
+
+variable "hosted_zone_name" {
+  type = string
+}
+
+variable "subdomain_name" {
+  type = string
+}
