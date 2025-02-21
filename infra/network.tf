@@ -53,15 +53,15 @@ resource "aws_subnet" "private_subnets" {
   for_each = {
     for idx, subnet_id in keys(data.aws_subnet.public_subnets) :
     subnet_id => {
-      az = data.aws_subnet.public_subnets[subnet_id].availability_zone
-      index  = idx
+      az    = data.aws_subnet.public_subnets[subnet_id].availability_zone
+      index = idx
     }
   }
   vpc_id            = aws_default_vpc.default.id
   cidr_block        = local.private_cidr_blocks[each.value.index]
   availability_zone = each.value.az
   tags = {
-    Name         = "${each.key} Related Private Subnet"
+    Name = "${each.key} Related Private Subnet"
   }
 }
 
@@ -82,7 +82,7 @@ resource "aws_route_table_association" "public" {
 
 resource "aws_route_table" "privates" {
   for_each = aws_subnet.private_subnets
-  vpc_id = aws_default_vpc.default.id
+  vpc_id   = aws_default_vpc.default.id
 
   route {
     cidr_block     = "0.0.0.0/0"
