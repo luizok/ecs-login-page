@@ -23,6 +23,7 @@ pre_deploy:
 	$(tf_cmd) apply -target="data.aws_subnets.public_subnets" -var-file values.tfvars
 
 deploy:
+	$(tf_cmd) apply -var-file values.tfvar -target data.aws_subnets.public_subnets
 	$(tf_cmd) apply -var-file values.tfvars
 
 show:

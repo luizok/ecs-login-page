@@ -27,6 +27,8 @@ locals {
 data "aws_subnet" "public_subnets" {
   for_each = toset(data.aws_subnets.public_subnets.ids)
   id       = each.value
+
+  depends_on = [data.aws_subnets.public_subnets]
 }
 
 resource "aws_eip" "nateip" {
